@@ -2,9 +2,13 @@ const express = require('express')
 const colors = require('colors')
 const moragan = require('morgan')
 const dotnev = require('dotenv')
+const connectDB = require('./config/db')
 
 // config i dotenv
 dotnev.config()
+
+//mongo db konektimi
+connectDB();
 
 const app = express();
 
@@ -13,11 +17,7 @@ app.use(express.json())
 app.use(moragan('dev'))
 
 // Rotuerat
-app.get('/', (req, res) => {
-    res.status(200).send({
-        message: "server running",
-    });
-});
+app.use("/api/v1/user", require("./routes/userRoutes"))
 
 // Porti Serverit
 const port = process.env.PORT || 8080;
