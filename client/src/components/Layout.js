@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {Badge, message} from 'antd'
 
+
 const Layout = ({children}) => {
     const location = useLocation();
     const {user} = useSelector((state) => state.user)
@@ -46,7 +47,9 @@ const Layout = ({children}) => {
             <div className='content'>
                 <div className='header'>
                     <div className="header-content">
-                    <Badge count={user && user.notifciation.length}>
+                    <Badge count={user && user.notification.length} onClick={() => {
+                        navigate("/notification")
+                    }} style={{cursor: "pointer"}}>
                     <i className='fa-solid fa-bell'></i>
                     </Badge>
                     
