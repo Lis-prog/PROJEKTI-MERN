@@ -17,7 +17,7 @@ isAdmin: {
     type: Boolean,
     default: false,
 },
-notifciation: {
+notification: {
     type: Array,
     default: [],
 },
