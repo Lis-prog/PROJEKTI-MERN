@@ -63,34 +63,111 @@ const authController = async (req,res) => {
     }
 };
 
+// const applyDoctorController = async (req, res) => {
+//     try {
+//         const newDoctor = await doctorModel({...req.body, status:'pending'});
+//         await newDoctor.save()
+//         const adminUser = await userModel.findOne({isAdmin:true});
+//         const notifciation = adminUser.notifciation
+//         notifciation.push({
+//             type: 'apply-doctor-request',
+//             message: `${newDoctor.firstName} ${newDoctor.lastName} Ka aplikuar per Doktor`,
+//             data: {
+//                 doctorId: newDoctor._id,
+//                 name: newDoctor.firstName + " " + newDoctor.lastName,
+//                 onClickPath: '/admin/doctors'
+//             }
+//         })
+//         await userModel.findByIdAndUpdate(adminUser._id,{notifciation})
+//         res.status(201).send({
+//             success: true,
+//             message:'Accounti i doktor ka aplikuar me sukses '
+//         })
+//     } catch (error) {
+//         console.log(error)
+//         res.status(500).send({
+//             success:false,
+//             error,
+//             message: 'Error derisa keni aplikuar per Doktor'
+//         })
+//     }
+// }
 const applyDoctorController = async (req, res) => {
     try {
-        const newDoctor = await doctorModel({...req.body, status:'pending'});
-        await newDoctor.save()
-        const adminUser = await userModel.findOne({isAdmin:true});
-        const notifciation = adminUser.notifciation
-        notifciation.push({
-            type: 'apply-doctor-request',
-            message: `${newDoctor.firstName} ${newDoctor.lastName} Ka aplikuar per Doktor`,
-            data: {
-                doctorId: newDoctor._id,
-                name: newDoctor.firstName + " " + newDoctor.lastName,
-                onClickPath: '/admin/doctors'
-            }
-        })
-        await userModel.findByIdAndUpdate(adminUser._id, {notifciation})
-        res.status(201).send({
+      const newDoctor = await doctorModel({ ...req.body, status: "pending" });
+      await newDoctor.save();
+      const adminUser = await userModel.findOne({ isAdmin: true });
+      const notifcation = adminUser.notification;
+      notifcation.push({
+        type: "apply-doctor-request",
+        message: `${newDoctor.firstName} ${newDoctor.lastName} Has Applied For A Doctor Account`,
+        data: {
+          doctorId: newDoctor._id,
+          name: newDoctor.firstName + " " + newDoctor.lastName,
+          onClickPath: "/admin/doctors",
+        },
+      });
+      await userModel.findByIdAndUpdate(adminUser._id, { notifcation });
+      res.status(201).send({
+        success: true,
+        message: "Doctor Account Applied SUccessfully",
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+        success: false,
+        error,
+        message: "Error WHile Applying For Doctotr",
+      });
+    }
+  };
+
+  const getAllNotificationController = async (req, res) => {
+    try {
+        const user = await userModel.findOne({_id:req.body.userId})
+        const seennotification = user.seennotification
+        const notification = user.notification
+        seennotification.push(...notification)
+        user.notification = [];
+        user.seennotification = notification
+        const updatedUser = await user.save()
+        res.status(200).send({
             success: true,
-            message:'Accounti i doktor ka aplikuar me sukses '
+            message: "all notifaction marked as read",
+            data: updatedUser,
         })
     } catch (error) {
         console.log(error)
         res.status(500).send({
-            success:false,
-            error,
-            message: 'Error derisa keni aplikuar per Doktor'
+            message: 'Error while gettin notifcation',
+            success: false,
+            error
+        })
+    }
+  }
+
+//   delete notifications
+
+const deleteAllNotificationController = async (req, res) => {
+    try {
+        const user = await userModel.findOne({_id:req.body.userId})
+        user.notification = [];
+        user.seennotification = [];
+        const updatedUser = await user.save();
+        updatedUser.password = undefined;
+        res.status(200).send({
+            success: true,
+            message: 'Notifications Deleted successfully',
+            data: updatedUser,
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            success: false,
+            message: 'unable to delete all notification',
+            error
         })
     }
 }
 
-module.exports = { loginController, registerController, authController, applyDoctorController}
+module.exports = { loginController, registerController, authController, applyDoctorController, getAllNotificationController, deleteAllNotificationController }
