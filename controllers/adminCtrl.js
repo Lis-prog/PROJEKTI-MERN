@@ -41,8 +41,8 @@ const getAllDoctorsController = async (req, res) => {
 //  Account status doctor
 const changeAccountStatusController = async (req, res) => {
     try {
-        const {doctorId, status} = req.body
-        const doctor = await doctorModel.findByIdAndUpdate(doctorId, {status})
+        const { doctorId, status } = req.body;
+        const doctor = await doctorModel.findByIdAndUpdate(doctorId, {status});
         const user = await userModel.findOne({_id:doctor.userId})
         const notification = user.notification
         notification.push({
@@ -50,13 +50,13 @@ const changeAccountStatusController = async (req, res) => {
             message:`Your doctor account requst has ${status}`,
             onClickPath:'/notification'
         });
-        user.isDoctor === 'approved' ? true : false
-        await user.save()
+        user.isDoctor = status === "approved" ? true : false
+        await user.save();
         res.status(201).send({
-            succes:true,
+            success: true,
             message:'Account Status Updated',
             data: doctor,
-        })
+        });
 
     } catch (error) {
         console.log(error)

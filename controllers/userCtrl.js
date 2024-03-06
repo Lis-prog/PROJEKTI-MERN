@@ -49,8 +49,9 @@ const authController = async (req,res) => {
     if(!user) {
         return res.status(200).send({message: "User nuk u gjet", success: false});
     } else {
-        res.status(200).send({success:true, 
-            data: user
+        res.status(200).send({
+            success:true, 
+            data: user,
     });
     }     
     } catch (error) {
