@@ -2,7 +2,7 @@ const userModel = require('../models/userModels');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); 
 const doctorModel = require('../models/doctorModel')
-
+const appointmentModel = require('../models/appointmentModel')
 const registerController = async (req,res) => {
     try {
         const existingUser = await userModel.findOne({email: req.body.email})
@@ -64,35 +64,6 @@ const authController = async (req,res) => {
     }
 };
 
-// const applyDoctorController = async (req, res) => {
-//     try {
-//         const newDoctor = await doctorModel({...req.body, status:'pending'});
-//         await newDoctor.save()
-//         const adminUser = await userModel.findOne({isAdmin:true});
-//         const notifciation = adminUser.notifciation
-//         notifciation.push({
-//             type: 'apply-doctor-request',
-//             message: `${newDoctor.firstName} ${newDoctor.lastName} Ka aplikuar per Doktor`,
-//             data: {
-//                 doctorId: newDoctor._id,
-//                 name: newDoctor.firstName + " " + newDoctor.lastName,
-//                 onClickPath: '/admin/doctors'
-//             }
-//         })
-//         await userModel.findByIdAndUpdate(adminUser._id,{notifciation})
-//         res.status(201).send({
-//             success: true,
-//             message:'Accounti i doktor ka aplikuar me sukses '
-//         })
-//     } catch (error) {
-//         console.log(error)
-//         res.status(500).send({
-//             success:false,
-//             error,
-//             message: 'Error derisa keni aplikuar per Doktor'
-//         })
-//     }
-// }
 const applyDoctorController = async (req, res) => {
     try {
       const newDoctor = await doctorModel({ ...req.body, status: "pending" });
@@ -169,6 +140,50 @@ const deleteAllNotificationController = async (req, res) => {
             error
         })
     }
+};
+
+const getAllDoctorsController = async (req, res) => {
+    try {
+      const doctors = await doctorModel.find({ status: 'approved' })
+      res.status(200).send({
+        success: true,
+        message: 'Doctors List Fetched Successfully',
+        data: doctors,
+      })  
+    } catch (error) {
+        console.log(error)
+        res.status(500).success({
+            success: false,
+            error,
+            message: 'Error While Fethcing Doctor',
+        })
+    }
 }
 
-module.exports = { loginController, registerController, authController, applyDoctorController, getAllNotificationController, deleteAllNotificationController }
+const bookAppointmentController = async (req,res) => {
+    try {
+        req.body.status = "pending" 
+        const newAppointment = new appointmentModel(req.body)
+        await newAppointment.save()
+        const user = await userModel.findOne({ _Id: req.body.userId})
+        user.notification.push({
+            type: 'Termin i ri',
+            message: `Termin i ri nga ${req.body.userInfo.name}`,
+            onClickPath: '/user/appointments',
+        });
+        await user.save();
+        res.status(200).send({
+            success: true,
+            message: "Termini u rezervua me sukses",
+        });   
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            success: false,
+            error,
+            message: 'Error while Booking Appointment'
+        })
+    }
+}
+
+module.exports = { loginController, registerController, authController, applyDoctorController, getAllNotificationController, deleteAllNotificationController, getAllDoctorsController, bookAppointmentController }
