@@ -1,3 +1,98 @@
+// import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import HomePage from "./pages/HomePage";
+// import Login from "./pages/Login";
+// import Register from "./pages/Register";
+// import { useSelector } from "react-redux";
+// import Spinner from "./components/Spinner";
+// import ProtectedRoute from "./components/ProtectedRoute";
+// import PublicRoute from "./components/PublicRoute";
+// import ApplyDoctor from "./pages/ApplyDoctor";
+// import NotifcationPage from "./pages/NotifcationPage";
+// import Users from "./pages/admin/Users";
+// import Profile from "./pages/doctor/Profile";
+// import Doctors from "./pages/admin/Doctors";
+// function App() {
+//   const { loading } = useSelector((state) => state.alerts);
+//   return (
+//     <>
+//       <BrowserRouter>
+//         {loading ? (
+//           <Spinner />
+//         ) : (
+//           <Routes>
+//             <Route
+//               path="/"
+//               element={
+//                 <ProtectedRoute>
+//                   <HomePage />
+//                 </ProtectedRoute>
+//               }
+//             />
+//             <Route
+//               path="/apply-doctor"
+//               element={
+//                 <ProtectedRoute>
+//                   <ApplyDoctor />
+//                 </ProtectedRoute>
+//               }
+//             />
+//             <Route
+//               path="/admin/users"
+//               element={
+//                 <ProtectedRoute>
+//                   <Users />
+//                 </ProtectedRoute>
+//               }
+//             />
+//             <Route
+//               path="/admin/doctors"
+//               element={
+//                 <ProtectedRoute>
+//                   <Doctors />
+//                 </ProtectedRoute>
+//               }
+//             />
+//             <Route
+//               path="/doctor/profile/:id"
+//               element={
+//                 <ProtectedRoute>
+//                   <Profile />
+//                 </ProtectedRoute>
+//               }
+//             />
+//             <Route
+//               path="/notification"
+//               element={
+//                 <ProtectedRoute>
+//                   <NotifcationPage />
+//                 </ProtectedRoute>
+//               }
+//             />
+//             <Route
+//               path="/login"
+//               element={
+//                 <PublicRoute>
+//                   <Login />
+//                 </PublicRoute>
+//               }
+//             />
+//             <Route
+//               path="/register"
+//               element={
+//                 <PublicRoute>
+//                   <Register />
+//                 </PublicRoute>
+//               }
+//             />
+//           </Routes>
+//         )}
+//       </BrowserRouter>
+//     </>
+//   );
+// }
+
+// export default App;
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
@@ -7,10 +102,10 @@ import Spinner from "./components/Spinner";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 import ApplyDoctor from "./pages/ApplyDoctor";
-import NotifcationPage from "./pages/NotifcationPage";
 import Users from "./pages/admin/Users";
-import Doctor from "./pages/admin/Doctor";
+import Doctors from "./pages/admin/Doctors";
 import Profile from "./pages/doctor/Profile";
+import BookingPage from "./pages/BookingPage";
 function App() {
   const { loading } = useSelector((state) => state.alerts);
   return (
@@ -48,7 +143,7 @@ function App() {
               path="/admin/doctors"
               element={
                 <ProtectedRoute>
-                  <Doctor />
+                  <Doctors />
                 </ProtectedRoute>
               }
             />
@@ -61,10 +156,10 @@ function App() {
               }
             />
             <Route
-              path="/notification"
+              path="/doctor/book-appointment/:doctorId"
               element={
                 <ProtectedRoute>
-                  <NotifcationPage />
+                  <BookingPage />
                 </ProtectedRoute>
               }
             />
