@@ -1,22 +1,118 @@
+// import React from "react";
+// import "../styles/LayoutStyles.css";
+// import { adminMenu, userMenu } from "../Data/data";
+// import { Link, useLocation, useNavigate } from "react-router-dom";
+// import { useSelector } from "react-redux";
+// import { Badge, message } from "antd";
+
+// const Layout = ({ children }) => {
+//   const { user } = useSelector((state) => state.user);
+//   const location = useLocation();
+//   const navigate = useNavigate();
+
+//   const handleLogout = () => {
+//     localStorage.clear();
+//     message.success("Lougout Sucessfully");
+//     navigate("/login");
+//   };
+
+//   // Doctor Menu
+//   const doctorMenu = [
+//     {
+//       name: "Home",
+//       path: "/",
+//       icon: "fa-solid fa-house",
+//     },
+//     {
+//       name: "Appointments",
+//       path: "/appointments",
+//       icon: "fa-solid fa-list",
+//     },
+//     {
+//       name: "Profile",
+//       path: `doctor/profile${user?._id}`,
+//       icon: "fa-solid fa-user",
+//     },
+//   ];
+//   // ============== Fundi doctor menuu ===============
+//   const SidebarMenu = user?.isAdmin
+//     ? adminMenu
+//     : user?.isDoctor
+//     ? doctorMenu
+//     : userMenu;
+//   return (
+//     <>
+//       <div className="main">
+//         <div className="layout">
+//           <div className="sidebar">
+//             <div className="logo">
+//               <h6>MERN APP</h6>
+//               <hr />
+//             </div>
+//             <div className="menu">
+//               {" "}
+//               {SidebarMenu.map((menu) => {
+//                 const isActive = location.pathname === menu.path;
+//                 return (
+//                   <>
+//                     <div className={`menu-item ${isActive && "active"}`}>
+//                       <i className={menu.icon}></i>
+//                       <Link to={menu.path}>{menu.name}</Link>
+//                     </div>
+//                   </>
+//                 );
+//               })}
+//               <div className={`menu-item`} onClick={handleLogout}>
+//                 <i className="fa-solid fa-right-from-bracket"></i>
+//                 <Link to="/login">Logout</Link>
+//               </div>
+//             </div>
+//           </div>
+//           <div className="content">
+//             <div className="header">
+//               <div className="header-content">
+//                 <Badge
+//                   count={user && user.notification.length}
+//                   onClick={() => {
+//                     navigate("/notification");
+//                   }}
+//                   style={{ cursor: "pointer" }}
+//                 >
+//                   <i className="fa-solid fa-bell"></i>
+//                 </Badge>
+
+//                 <Link to="/profile">{user?.name}</Link>
+//               </div>
+//             </div>
+//             <div className="body">{children}</div>
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default Layout;
+
 import React from "react";
 import "../styles/LayoutStyles.css";
-import { adminMenu, userMenu } from "../Data/data";
+import { adminMenu, userMenu } from "./../Data/data";
+
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Badge, message } from "antd";
-
 const Layout = ({ children }) => {
   const { user } = useSelector((state) => state.user);
   const location = useLocation();
   const navigate = useNavigate();
-
+  // logout funtion
   const handleLogout = () => {
     localStorage.clear();
-    message.success("Lougout Sucessfully");
+    message.success("Logout Successfully");
     navigate("/login");
   };
 
-  // Doctor Menu
+  // =========== doctor menu ===============
   const doctorMenu = [
     {
       name: "Home",
@@ -28,13 +124,16 @@ const Layout = ({ children }) => {
       path: "/appointments",
       icon: "fa-solid fa-list",
     },
+
     {
       name: "Profile",
-      path: `doctor/profile${user?._id}`,
+      path: `/doctor/profile/${user?._id}`,
       icon: "fa-solid fa-user",
     },
   ];
-  // ============== Fundi doctor menuu ===============
+  // =========== doctor menu ===============
+
+  // redering menu list
   const SidebarMenu = user?.isAdmin
     ? adminMenu
     : user?.isDoctor
@@ -46,11 +145,10 @@ const Layout = ({ children }) => {
         <div className="layout">
           <div className="sidebar">
             <div className="logo">
-              <h6>MERN APP</h6>
+              <h6>DOC APP</h6>
               <hr />
             </div>
             <div className="menu">
-              {" "}
               {SidebarMenu.map((menu) => {
                 const isActive = location.pathname === menu.path;
                 return (
@@ -62,7 +160,7 @@ const Layout = ({ children }) => {
                   </>
                 );
               })}
-              <div className={`menu-item`} onClick={handleLogout}>
+              <div className={`menu-item `} onClick={handleLogout}>
                 <i className="fa-solid fa-right-from-bracket"></i>
                 <Link to="/login">Logout</Link>
               </div>
@@ -70,15 +168,14 @@ const Layout = ({ children }) => {
           </div>
           <div className="content">
             <div className="header">
-              <div className="header-content">
+              <div className="header-content" style={{ cursor: "pointer" }}>
                 <Badge
                   count={user && user.notification.length}
                   onClick={() => {
                     navigate("/notification");
                   }}
-                  style={{ cursor: "pointer" }}
                 >
-                  <i className="fa-solid fa-bell"></i>
+                  <i class="fa-solid fa-bell"></i>
                 </Badge>
 
                 <Link to="/profile">{user?.name}</Link>
