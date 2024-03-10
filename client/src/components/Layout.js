@@ -181,7 +181,13 @@ const Layout = ({ children }) => {
                 <Link to="/profile">{user?.name}</Link>
               </div>
             </div>
-            <div className="body">{children}</div>
+            <div className="body">
+              <div>
+                {" "}
+                <img src="https://t3.ftcdn.net/jpg/02/60/79/68/360_F_260796882_QyjDubhDDk0RZXV9z7XBEw9AKnWCizXy.jpg" />
+              </div>
+              {children}
+            </div>
           </div>
         </div>
       </div>
