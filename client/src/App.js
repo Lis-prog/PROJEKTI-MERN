@@ -7,10 +7,12 @@
 // import ProtectedRoute from "./components/ProtectedRoute";
 // import PublicRoute from "./components/PublicRoute";
 // import ApplyDoctor from "./pages/ApplyDoctor";
-// import NotifcationPage from "./pages/NotifcationPage";
 // import Users from "./pages/admin/Users";
-// import Profile from "./pages/doctor/Profile";
 // import Doctors from "./pages/admin/Doctors";
+// import Profile from "./pages/doctor/Profile";
+// import BookingPage from "./pages/BookingPage";
+// import Appointments from "./pages/Appointments";
+
 // function App() {
 //   const { loading } = useSelector((state) => state.alerts);
 //   return (
@@ -61,10 +63,10 @@
 //               }
 //             />
 //             <Route
-//               path="/notification"
+//               path="/doctor/book-appointment/:doctorId"
 //               element={
 //                 <ProtectedRoute>
-//                   <NotifcationPage />
+//                   <BookingPage />
 //                 </ProtectedRoute>
 //               }
 //             />
@@ -82,6 +84,14 @@
 //                 <PublicRoute>
 //                   <Register />
 //                 </PublicRoute>
+//               }
+//             />
+//             <Route
+//               path="/appointments"
+//               element={
+//                 <ProtectedRoute>
+//                   <Appointments />
+//                 </ProtectedRoute>
 //               }
 //             />
 //           </Routes>
@@ -106,6 +116,8 @@ import Users from "./pages/admin/Users";
 import Doctors from "./pages/admin/Doctors";
 import Profile from "./pages/doctor/Profile";
 import BookingPage from "./pages/BookingPage";
+import NotifcationPage from "./pages/NotificationPage";
+import Appointments from "./pages/Appointments";
 function App() {
   const { loading } = useSelector((state) => state.alerts);
   return (
@@ -115,14 +127,6 @@ function App() {
           <Spinner />
         ) : (
           <Routes>
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <HomePage />
-                </ProtectedRoute>
-              }
-            />
             <Route
               path="/apply-doctor"
               element={
@@ -164,6 +168,14 @@ function App() {
               }
             />
             <Route
+              path="/notification"
+              element={
+                <ProtectedRoute>
+                  <NotifcationPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/login"
               element={
                 <PublicRoute>
@@ -177,6 +189,30 @@ function App() {
                 <PublicRoute>
                   <Register />
                 </PublicRoute>
+              }
+            />
+            <Route
+              path="/appointments"
+              element={
+                <ProtectedRoute>
+                  <Appointments />
+                </ProtectedRoute>
+              }
+            />
+            {/* <Route
+              path="/doctor-appointments"
+              element={
+                <ProtectedRoute>
+                  <DoctorAppointments />
+                </ProtectedRoute>
+              }
+            /> */}
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <HomePage />
+                </ProtectedRoute>
               }
             />
           </Routes>
