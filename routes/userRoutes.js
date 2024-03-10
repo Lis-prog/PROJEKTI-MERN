@@ -3,7 +3,7 @@ const express = require('express');
 //Router onject
 const router = express.Router()
 
-const { loginController, registerController, authController, applyDoctorController, getAllNotificationController, deleteAllNotificationController, getAllDoctorsController, bookAppointmentController } = require('../controllers/userCtrl');
+const { loginController, registerController, authController, applyDoctorController, getAllNotificationController, deleteAllNotificationController, getAllDoctorsController, bookingAvailabilityController, bookeAppointmnetController, userAppointmentsController } = require('../controllers/userCtrl');
 const authMiddleware = require('../middlewares/authMiddleware');
 
 
@@ -32,6 +32,11 @@ router.post('/delete-all-notification', authMiddleware, deleteAllNotificationCon
 router.get('/getAllDoctors', authMiddleware, getAllDoctorsController )
 
 // Rezervo termin
-router.post('/book-appointment', authMiddleware, bookAppointmentController)
+router.post('/book-appointment', authMiddleware, bookeAppointmnetController)
+
+router.post('/booking-availbility', authMiddleware, bookingAvailabilityController)
+
+//Appointments List
+router.get("/user-appointments", authMiddleware, userAppointmentsController);
 
 module.exports = router
